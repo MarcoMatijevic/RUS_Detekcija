@@ -23,11 +23,13 @@ Aktivira se zvučno upozorenje.
 Na LCD ekranu se ispisuje: "PAZI AUTO!"
 
 Instalacija i korištenje
+
 Spojite komponente prema shemi povezivanja.
 Učitajte Arduino kôd na mikrokontroler.
 Pokrenite sustav i testirajte funkcionalnost senzorike.
 
 Buduća poboljšanja
+
 Implementacija vibracijskog motora za dodatno upozorenje.
 Korištenje naprednijih senzora za točnija mjerenja.
 Integracija s mobilnom aplikacijom za prikaz podataka.
