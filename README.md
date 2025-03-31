@@ -1,40 +1,50 @@
-# RUS
-Detekcija približavanja vozila biciklu
+# Bicycle Vehicle Proximity Detection System  
 
-Ovaj projekt implementira sustav za detekciju približavanja vozila biciklu koristeći Arduino Mega, ultrazvučni senzor za mjerenje udaljenosti, LED lampice za vizualni signal, zvučnik za zvučno upozorenje i LCD ekran s I2C modulom za prikaz informacija.
+🚴 **Detekcija približavanja vozila biciklu** 🚗  
 
-Komponente
+Ovaj projekt implementira sustav za detekciju približavanja vozila biciklu koristeći **Arduino Mega**, ultrazvučni senzor, LED indikatore, zvučno upozorenje i LCD ekran.  
 
-Arduino Mega - mikrokontroler
-Ultrazvučni senzor - mjerenje udaljenosti (npr. HC-SR04)
-LED lampice - Zelena, žuta i crvena za vizualni signal
-Zvučnik - zvučno upozorenje
-LCD ekran s I2C modulom - prikaz udaljenosti i upozorenja
+---
 
-Funkcionalnost
+## 📦 Komponente  
+- **Arduino Mega** – Glavni mikrokontroler  
+- **Ultrazvučni senzor (HC-SR04)** – Mjerenje udaljenosti  
+- **LED lampice** – Vizualna indikacija (zelena, žuta, crvena)  
+- **Zvučnik** – Zvučno upozorenje  
+- **LCD ekran s I2C modulom** – Prikaz udaljenosti i upozorenja  
 
-Kada senzor ne detektira objekt u blizini, svijetli zelena LED lampica.
-Kada senzor detektira vozilo na određenoj udaljenosti:
-Pali se žuta LED lampica.
-Na LCD ekranu se ispisuje trenutna udaljenost vozila od bicikla.
-Kada je udaljenost manja od 2 metra:
-Pali se crvena LED lampica.
-Aktivira se zvučno upozorenje.
-Na LCD ekranu se ispisuje: "PAZI AUTO!"
+---
 
-Instalacija i korištenje
+## 🛠️ Funkcionalnost  
+- **✅ Normalan rad (nema bliskog vozila)**  
+  - 🔵 **Zelena LED** – Bez opasnosti  
+- **⚠️ Vozilo u blizini (unutar određene udaljenosti)**  
+  - 🟡 **Žuta LED** – Upozorenje  
+  - 📊 **LCD prikazuje udaljenost**  
+- **🚨 Vozilo vrlo blizu (manje od 2 metra)**  
+  - 🔴 **Crvena LED** – Visoka opasnost  
+  - 🔔 **Zvučno upozorenje**  
+  - 📟 **LCD prikaz: "PAZI AUTO!"**  
 
-Spojite komponente prema shemi povezivanja.
-Učitajte Arduino kôd na mikrokontroler.
-Pokrenite sustav i testirajte funkcionalnost senzorike.
+---
 
-Buduća poboljšanja
+## 🔌 Instalacija i upute  
+1. **Spojite komponente** prema shemi.  
+2. **Učitajte Arduino kôd** na mikrokontroler.  
+3. **Pokrenite sustav** i testirajte funkcionalnost.  
 
-Implementacija vibracijskog motora za dodatno upozorenje.
-Korištenje naprednijih senzora za točnija mjerenja.
-Integracija s mobilnom aplikacijom za prikaz podataka.
+---
 
-Licence
+## 🔮 Buduća poboljšanja  
+- 📳 **Vibracijski motor** – Dodatno taktilno upozorenje  
+- 🔍 **Napredniji senzori** – Točnija detekcija  
+- 📱 **Mobilna integracija** – Prikaz podataka u aplikaciji  
 
-Ovaj projekt je open-source i možete ga slobodno koristiti i modificirati.
+---
 
+## 📜 Licenca  
+📌 **Open-Source (MIT)** – Slobodno koristite i modificirajte.  
+
+---
+
+🚀 **Spremni za sigurniju vožnju biciklom?** Spojite, programirajte i vozite oprezno! 🚲💨
