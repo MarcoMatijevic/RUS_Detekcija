@@ -3,22 +3,22 @@
 
 Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strogo definiranim prioritetima.
 
-📋 Sadržaj
-Hardverska konfiguracija
+## 📋 Sadržaj
+- Hardverska konfiguracija
 
-Upravljanje prekidima
+- Upravljanje prekidima
 
-Obrada u glavnoj petlji
+- Obrada u glavnoj petlji
 
-Napomene o implementaciji
+- Napomene o implementaciji
 
-Usklađenost sa zahtjevima
+- Usklađenost sa zahtjevima
 
-Instalacija
+- Instalacija
 
-Korištenje
+- Korištenje
 
-Autor
+- Autor
 
 ## 📦 Hardverske komponente
 | Komponenta       | GPIO Pin | Opis                |
