@@ -22,29 +22,30 @@ Demonstracijski projekt za ESP32 koji prikazuje:
 | LED tipka 1      | 14       | Crvena indikacija   |
 | LED tipka 2      | 27       | Plava indikacija    |
 
-## ⚙️ Konfiguracija prekida
-```mermaid
-pie
-    title Raspodjela prioriteta
-    "Tajmer (0)" : 10
-    "Tipka2 (1)" : 15
-    "PIR (2)" : 25
-    "Tipka0 (3)" : 20
-    "Tipka1 (4)" : 30
-🔌 Shema spojeva
-plaintext
-Copy
-ESP32 GPIO2  → Tipka0 → 10kΩ → GND
-ESP32 GPIO4  → Tipka1 → 10kΩ → GND
-ESP32 GPIO5  → Tipka2 → 10kΩ → GND
-ESP32 GPIO33 → PIR OUT
-ESP32 GPIO12 → LED0 (žuta) → 220Ω → GND
-ESP32 GPIO13 → LED_TIMER (zelena) → 220Ω → GND
-ESP32 GPIO14 → LED1 (crvena) → 220Ω → GND
-ESP32 GPIO27 → LED2 (plava) → 220Ω → GND
-💻 Upute za pokretanje
-Spojite komponente prema shemi
+## Konfiguracija prekida
+Prioriteti prekida:
+- Tajmer (0) - 10%
+- Tipka2 (1) - 15% 
+- PIR (2) - 25%
+- Tipka0 (3) - 20%
+- Tipka1 (4) - 30%
 
+## Shema spojeva
+| ESP32 Pin | Komponenta  | Dodatni elementi |
+|-----------|-------------|------------------|
+| GPIO2     | Tipka0      | 10kΩ → GND       |
+| GPIO4     | Tipka1      | 10kΩ → GND       |
+| GPIO5     | Tipka2      | 10kΩ → GND       |
+| GPIO33    | PIR senzor  | -                |
+| GPIO12    | LED0 (žuta) | 220Ω → GND       |
+| GPIO13    | LED_TIMER   | 220Ω → GND       |
+| GPIO14    | LED1 (crvena)| 220Ω → GND       |
+| GPIO27    | LED2 (plava)| 220Ω → GND       |
+
+## Upute za pokretanje
+1. Spojite komponente prema shemi
+2. Uploadajte program na ESP32
+3. Pratite izlaz preko serijske konzole (115200 baud)
 
 📋 Primjer izlaza
 plaintext
@@ -53,6 +54,7 @@ Copy
 [TAJMER] Aktiviran (1000ms)
 [PIR] Detektiran pokret!
 [TIPKA1] Visok prioritet aktiviran
+
 🛠️ Glavni kodovi
 cpp
 Copy
@@ -72,6 +74,7 @@ void setupTimer() {
   esp_timer_create(&timerArgs, &timerHandle);
   esp_timer_start_periodic(timerHandle, 1000000);
 }
+
 📜 Licenca
 text
 Copy
