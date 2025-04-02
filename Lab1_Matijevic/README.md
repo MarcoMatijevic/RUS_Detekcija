@@ -61,7 +61,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 **3.2 Rutine za obradu prekida (ISR)**
 - Svaki prekid ima svoju ISR rutinu koja postavlja zastavicu za obradu u glavnoj petlji:
 
-**Timer ISR:
+**Timer ISR:**
 
 - Aktivira se svake 1 sekunde**
 
@@ -69,7 +69,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 
 - Najviši prioritet (0)
 
-**BUTTON0 ISR:
+**BUTTON0 ISR:**
 
 - Aktivira se na silazni brid (pritisak tipke)
 
@@ -77,7 +77,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 
 - Razina prioriteta 3
 
-**BUTTON1 ISR:
+**BUTTON1 ISR:**
 
 - Aktivira se na silazni brid
 
@@ -85,7 +85,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 
 - Razina prioriteta 4
 
-**BUTTON2 ISR:
+**BUTTON2 ISR:**
 
 - Aktivira se na silazni brid
 
@@ -93,7 +93,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 
 - Razina prioriteta 1
 
-**PIR senzor ISR:
+**PIR senzor ISR:**
 
 - Aktivira se na uzlazni brid (detekcija pokreta)
 
@@ -104,31 +104,31 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 ## 🔄 Obrada u glavnoj petlji
 Glavna petlja provjerava zastavice prekida po redu prioriteta i obrađuje ih:
 
-**Timer:
+**Timer:**
 
 - Mijenja stanje LED_TIMER
 
 - Ispisuje "[TIMER] Aktiviran" na serijski izlaz
 
-**BUTTON0:
+**BUTTON0:**
 
 - Paljenje LED_BTN0 na 1 sekundu
 
 - Ispis "[BUTTON0] Pritisnut"
 
-**BUTTON1:
+**BUTTON1:**
 
 - Paljenje LED_BTN1 na 1 sekundu
 
 - Ispis "[BUTTON1] Pritisnut"
 
-**BUTTON2:
+**BUTTON2:**
 
 Paljenje LED_BTN2 na 1 sekundu
 
 - Ispis "[BUTTON2] Pritisnut"
 
-**PIR senzor:
+**PIR senzor:**
 
 - Ispis "[PIR] Pokret detektiran!"
 
