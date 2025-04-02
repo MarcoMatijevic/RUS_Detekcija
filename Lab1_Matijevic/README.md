@@ -65,7 +65,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 
 **Timer ISR:**
 
-- Aktivira se svake 1 sekunde**
+- Aktivira se svake 1 sekunde
 
 - Postavlja timerFlag za promjenu stanja LED_TIMER
 
