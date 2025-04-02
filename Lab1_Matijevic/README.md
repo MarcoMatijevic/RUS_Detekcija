@@ -1,6 +1,6 @@
 # 🚀 ESP32 Demo Projekt s Prekidima
 
-![Shema projekta](https://wokwi.com/projects/427051732721736705/thumbnail.png)
+![Shema projekta](https://thumbs.wokwi.com/projects/427051732721736705/thumbnail.jpg?tile&t=1743622816033)
 
 ## 📝 Opis projekta
 Demonstracijski projekt za ESP32 koji prikazuje:
