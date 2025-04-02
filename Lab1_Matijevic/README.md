@@ -46,7 +46,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 | GPIO27    | LED2 (Roza)   | 220Ω → GND        |
 
 ## ⚙️ Upravljanje prekidima
-- **3.1 Izvori prekida i prioriteti**
+**3.1 Izvori prekida i prioriteti**
 - Sustav upravlja s četiri vrste prekida sa sljedećim prioritetima (veći broj = veći prioritet):
 
 
@@ -58,7 +58,7 @@ Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strog
 | BUTTON1       | 4                  | Tipka srednjeg prioriteta         |
 | BUTTON2       | 1                  | (Najniži)	Tipka niskog prioriteta |
 
-- **3.2 Rutine za obradu prekida (ISR)**
+**3.2 Rutine za obradu prekida (ISR)**
 - Svaki prekid ima svoju ISR rutinu koja postavlja zastavicu za obradu u glavnoj petlji:
 
 **Timer ISR:
