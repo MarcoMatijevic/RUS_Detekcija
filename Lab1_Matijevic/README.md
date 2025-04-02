@@ -1,78 +1,80 @@
-ESP32 Interrupt-Based Safety Alert System
-🚴 Sustav za upozorenje na približavanje vozila biciklistima 🚗
+# 🚀 ESP32 Demo Projekt s Prekidima
 
-Ovaj projekt implementira inteligentni sustav upozorenja koristeći ESP32, PIR senzor, mehaničke tipke i LED indikatore, s naprednim upravljanjem prekidima i prioritetima.
+![Shema projekta](https://wokwi.com/projects/427051732721736705/thumbnail.png)
 
-📦 Komponente
-ESP32 – Glavni mikrokontroler s Wi-Fi/Bluetooth
+## 📝 Opis projekta
+Demonstracijski projekt za ESP32 koji prikazuje:
+- Upravljanje višestrukim prekidima
+- Različite prioritete prekida
+- Rad s PIR senzorom i tipkama
+- Vizualizaciju stanja pomoću LED dioda
 
-PIR senzor (HC-SR501) – Detekcija pokreta vozila
+## 📦 Hardverske komponente
+| Komponenta       | GPIO Pin | Opis                |
+|------------------|----------|---------------------|
+| ESP32 ploča      | -        | Glavni kontroler    |
+| PIR senzor       | 33       | Detekcija pokreta   |
+| Tipka 0          | 2        | Prekid prioritet 3  |
+| Tipka 1          | 4        | Prekid prioritet 4  |
+| Tipka 2          | 5        | Prekid prioritet 1  |
+| LED tajmer       | 13       | Indikator rada      |
+| LED tipka 0      | 12       | Žuta indikacija     |
+| LED tipka 1      | 14       | Crvena indikacija   |
+| LED tipka 2      | 27       | Plava indikacija    |
 
-Mehaničke tipke (x3) – Ručno upravljanje sustavom
-
-LED indikatori (x4) – Vizualna upozorenja (zeleno/žuto/crveno)
-
-Serijska konzola – Prikaz događaja u realnom vremenu
-
-🛠️ Funkcionalnost
-🔄 Automatski rad
-✅ Normalan režim
-
-🟢 LED_TIMER – Periodično treperi (1Hz)
-
-⚠️ Detekcija pokreta (PIR senzor)
-
-🟡 LED_BTN0 – Kratko upozorenje
-
-📟 Serijski izlaz: "Pokret detektiran!"
-
-🚨 Ručno aktiviranje upozorenja
-
-🔴 LED_BTN1/LED_BTN2 – Dugotrajno upozorenje (1s)
-
-⚡ Prioriteti prekida
-BUTTON1 (GPIO4) – Najviši prioritet (hitno upozorenje)
-
-PIR senzor (GPIO33) – Srednji prioritet
-
-BUTTON0 (GPIO2) – Niži prioritet
-
-BUTTON2 (GPIO5) – Osnovni prioritet
-
-Tajmer – Najniži prioritet
-
-🔧 Instalacija
-Spojite komponente prema shemi:
-
+## ⚙️ Konfiguracija prekida
+```mermaid
+pie
+    title Raspodjela prioriteta
+    "Tajmer (0)" : 10
+    "Tipka2 (1)" : 15
+    "PIR (2)" : 25
+    "Tipka0 (3)" : 20
+    "Tipka1 (4)" : 30
+🔌 Shema spojeva
+plaintext
 Copy
-BUTTON0 → GPIO2   (Pull-up 10kΩ)  
-BUTTON1 → GPIO4  
-BUTTON2 → GPIO5  
-PIR → GPIO33  
-LED_TIMER → GPIO13  
-LED_BTN0 → GPIO12  
-LED_BTN1 → GPIO14  
-LED_BTN2 → GPIO27  
-Preuzmite i kompajlirajte kod u Arduino IDE/PlatformIO
+ESP32 GPIO2  → Tipka0 → 10kΩ → GND
+ESP32 GPIO4  → Tipka1 → 10kΩ → GND
+ESP32 GPIO5  → Tipka2 → 10kΩ → GND
+ESP32 GPIO33 → PIR OUT
+ESP32 GPIO12 → LED0 (žuta) → 220Ω → GND
+ESP32 GPIO13 → LED_TIMER (zelena) → 220Ω → GND
+ESP32 GPIO14 → LED1 (crvena) → 220Ω → GND
+ESP32 GPIO27 → LED2 (plava) → 220Ω → GND
+💻 Upute za pokretanje
+Spojite komponente prema shemi
 
-Otvortie serijski monitor (115200 baud)
 
-🚀 Napredne mogućnosti
-Preklapanje prekida – Visokoprioritetni prekidi mogu prekinuti nižeprioritetne
+📋 Primjer izlaza
+plaintext
+Copy
+[SYSTEM] Inicijalizacija završena
+[TAJMER] Aktiviran (1000ms)
+[PIR] Detektiran pokret!
+[TIPKA1] Visok prioritet aktiviran
+🛠️ Glavni kodovi
+cpp
+Copy
+// Primjer prekidne rutine
+void IRAM_ATTR handleButton1() {
+  portENTER_CRITICAL_ISR(&btnMux);
+  btn1Pressed = true;
+  portEXIT_CRITICAL_ISR(&btnMux);
+}
 
-Zaštita resursa – Semafori za sigurno dijeljenje varijabli između prekida
-
-Konfigurabilni prioriteti – Lako podešavanje prema potrebama
-
-🔮 Buduća unapređenja
-📶 Wi-Fi povezivanje – Slanje upozorenja na mobilni uređaj
-
-🔊 Zvučna upozorenja – Integracija buzzer modula
-
-📊 LCD ekran – Vizualni prikaz stanja
-
+// Postavljanje tajmera
+void setupTimer() {
+  esp_timer_create_args_t timerArgs = {
+    .callback = &timerISR,
+    .name = "system_timer"
+  };
+  esp_timer_create(&timerArgs, &timerHandle);
+  esp_timer_start_periodic(timerHandle, 1000000);
+}
 📜 Licenca
-📌 MIT Licenca – Slobodna upotreba i modifikacija
-
-🚲 Spremni za sigurniju vožnju? Implementirajte sustav i vozite s povjerenjem!
-🔗 Dostupno za simulaciju na Wokwi platformi
+text
+Copy
+MIT Licenca
+Dozvoljeno slobodno korištenje i modifikacija
+🚀 Simulacija: Wokwi Link - https://wokwi.com/projects/427051732721736705
