@@ -1,7 +1,9 @@
-📝 ESP32 Sustav upravljanja prekidima
+## 📝 ESP32 Sustav upravljanja prekidima
 <img src="https://img.shields.io/badge/Platform-ESP32-blue" alt="Platform"> <img src="https://img.shields.io/badge/Framework-Arduino-green" alt="Framework">
 
 Sustav za demonstriranje upravljanja prekidima na ESP32 mikrokontroleru sa strogo definiranim prioritetima.
+
+- **WOKWI Pristup:** https://wokwi.com/projects/427051732721736705
 
 ## 📋 Sadržaj
 - Hardverska konfiguracija
@@ -160,7 +162,7 @@ Paljenje LED_BTN2 na 1 sekundu
 
 ## 📥 Instalacija
 - Klonirajte repozitorij:
-git clone https://github.com/vas_repozitorij/esp32-interrupt-system.git
+git clone https://github.com/MarcoMatijevic/RUS.git
 
 - Otvorite projekt u Arduino IDE
 
