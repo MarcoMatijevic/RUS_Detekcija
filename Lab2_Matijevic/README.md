@@ -1,4 +1,4 @@
-#📝 Lab2: Upravljanje Energijom i Watchdog Timer u Ugradbenim Sustavima
+# 📝Lab2: Upravljanje Energijom i Watchdog Timer u Ugradbenim Sustavima
 **Opis zadatka**
 U ovom zadatku potrebno je koristiti mikrokontroler za demonstraciju naprednih tehnika upravljanja energijom i pouzdanosti sustava korištenjem sleep modova i watchdog timera. Implementirati:
 
