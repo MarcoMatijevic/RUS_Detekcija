@@ -2,6 +2,8 @@
 
 🚴 **Detekcija približavanja vozila biciklu** 🚗  
 
+LINK NA PROJEKT ->  https://wokwi.com/projects/428865980507846657
+
 Ovaj projekt implementira sustav za detekciju približavanja vozila biciklu koristeći **Arduino Mega**, ultrazvučni senzor, LED indikatore, zvučno upozorenje i LCD ekran.  
 
 ---
