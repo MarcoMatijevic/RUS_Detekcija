@@ -4,7 +4,7 @@
 
 **LINK NA PROJEKT:**  
 🔗 [Wokwi Simulator](https://wokwi.com/projects/428865980507846657)  
-🔗 [Napredna ESP32 verzija](https://wokwi.com/projects/429847891799736321)  
+🔗 [Napredna ESP32 verzija](https://wokwi.com/projects/429025123835618305)  
 
 ---
 
