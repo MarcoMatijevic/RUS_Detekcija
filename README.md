@@ -30,7 +30,7 @@
 - LCD: "Sustav aktivan"  
 - Kontinuirano mjerenje udaljenosti  
 
-### 🟡 Upozorenje (2-4m)
+### 🟡 Upozorenje (2-3.5m)
 - Žuta LED treperi  
 - Kratki zvučni signali (1s interval)  
 - LCD: "OPREZ: Vozilo u blizini"  
