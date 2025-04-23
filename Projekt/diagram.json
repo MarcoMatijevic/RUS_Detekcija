@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-breadboard-half", "id": "bb3", "top": -12.6, "left": 319.6, "attrs": {} },
+    { "type": "wokwi-arduino-mega", "id": "mega", "top": 29.4, "left": -109.2, "attrs": {} },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic1",
+      "top": -238.5,
+      "left": -71.3,
+      "attrs": { "distance": "26" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -128.4,
+      "left": 474.2,
+      "attrs": { "color": "limegreen" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -128.4,
+      "left": 435.8,
+      "attrs": { "color": "yellow" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": -128.4,
+      "left": 397.4,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -141.6,
+      "left": 558.6,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -358.4,
+      "left": 245.6,
+      "attrs": { "pins": "i2c" }
+    }
+  ],
+  "connections": [
+    [ "mega:2", "ultrasonic1:ECHO", "green", [ "v-38.4", "h-109.6", "v-144" ] ],
+    [ "mega:3", "ultrasonic1:TRIG", "green", [ "v-48", "h-109.3" ] ],
+    [ "mega:5V", "bb3:tp.1", "red", [ "v45.3", "h251.9", "v-259.5" ] ],
+    [ "ultrasonic1:VCC", "bb3:tp.2", "red", [ "v124.8", "h363.2" ] ],
+    [ "lcd1:SCL", "mega:21", "blue", [ "h-19.2", "v336.3" ] ],
+    [ "lcd1:SDA", "mega:20", "green", [ "h-28.8", "v345.8" ] ],
+    [ "led3:A", "mega:4", "red", [ "v19.2", "h-293.4" ] ],
+    [ "led2:A", "mega:5", "gold", [ "v28.8", "h-370.1" ] ],
+    [ "led1:A", "mega:6", "limegreen", [ "v38.4", "h-446.8" ] ],
+    [ "led2:C", "bb3:tn.10", "black", [ "v0" ] ],
+    [ "bz1:1", "bb3:tn.21", "black", [ "v0" ] ],
+    [ "bz1:2", "mega:7", "green", [ "v28.8", "h-514.8" ] ],
+    [ "mega:GND.1", "bb3:tn.1", "black", [ "v0" ] ],
+    [ "led3:C", "bb3:tn.6", "black", [ "v0" ] ],
+    [ "lcd1:GND", "bb3:tn.5", "black", [ "h-48", "v163.2", "h190.4" ] ],
+    [ "lcd1:VCC", "bb3:tp.4", "red", [ "h-38.4", "v144.1", "h171.2" ] ],
+    [ "ultrasonic1:GND", "bb3:tn.3", "black", [ "v67.2", "h342.8" ] ],
+    [ "led1:C", "bb3:tn.13", "black", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
