@@ -20,7 +20,6 @@
 - **ESP32** – WiFi/BLE sposobnosti  
 - **Dodatni HC-SR04** – Stražnji senzor  
 - **OLED SSD1306** – Grafički displej  
-- **Vibra motor** – Haptički feedback  
 
 ---
 
@@ -51,28 +50,49 @@
 | HC-SR04 (Front) | Trig:13, Echo:12 |
 | HC-SR04 (Rear)  | Trig:14, Echo:27 |
 | OLED I2C       | SDA:21, SCL:22 |
-| Buzzer         | GPIO4   |
-| Vibra motor    | GPIO5   |
+| Buzzer         | GPIO2   |
 
 ### 💻 Kôd značajke
 ```cpp
-// Detekcija vozila s dva senzora
-void checkVehicles() {
-  float frontDist = getDistance(FRONT_TRIG, FRONT_ECHO);
-  float rearDist = getDistance(REAR_TRIG, REAR_ECHO);
-  
-  if(frontDist < 2.0 || rearDist < 2.0) {
-    triggerAlarm(CRITICAL);
+// Režim rada ovisno o minimalnoj udaljenosti
+  if (minUdaljenost >= 350) {
+    // Normalan režim
+    digitalWrite(LED_ZELENA, HIGH);
+    display.setCursor(0, 30);
+    display.setTextSize(2);
+    display.println("Sustav aktivan");
+
+  } else if (minUdaljenost >= 200) {
+    // Upozorenje (2–4 m)
+    for (int i = 0; i < 2; i++) {
+      digitalWrite(LED_ZUTA, HIGH);
+      tone(ZVUCNIK, 262, 100);
+      delay(500);
+      digitalWrite(LED_ZUTA, LOW);
+      delay(500);
+    }
+    display.setCursor(0, 30);
+    display.setTextSize(1);
+    display.println("OPREZ: Vozilo u blizini");
+
+  } else {
+    // Kritično stanje (< 2 m)
+    digitalWrite(LED_CRVENA, HIGH);
+    tone(ZVUCNIK, 262);
+    display.setCursor(0, 30);
+    display.setTextSize(2);
+    display.println("PAZI!");
+    display.setCursor(0, 50);
+    display.setTextSize(1);
+    display.print("VOZILO BLIZU! (");
+    display.print(najbliziSenzor);
+    display.print(")");
   }
-  else if(frontDist < 4.0 || rearDist < 4.0) {
-    triggerAlarm(WARNING);
-  }
-}
 ```
 
 ## 📚 Resursi
 1. [Kompletni kod](https://github.com/MarcoMatijevic/RUS_Detekcija)
-2. [ESP32 Wokwi template](https://wokwi.com/projects/429847891799736321)
+2. [ESP32 Wokwi template](https://wokwi.com/projects/429025123835618305)
 3. [Kalibracijski vodič](https://wokwi.com/projects/428865980507846657)  
 
 ---
