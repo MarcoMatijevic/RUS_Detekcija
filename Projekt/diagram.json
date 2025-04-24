@@ -46,7 +46,7 @@
       "id": "ultrasonic2",
       "top": -104.1,
       "left": 418.3,
-      "attrs": { "distance": "60" }
+      "attrs": { "distance": "307" }
     }
   ],
   "connections": [

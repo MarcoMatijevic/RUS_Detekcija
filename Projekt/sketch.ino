@@ -1,10 +1,12 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include "driver/rtc_io.h"
+#include "esp_sleep.h"      //dodavanje potrebnih biblioteka
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
-#define OLED_RESET    -1
+#define OLED_RESET    -1      //konfiguracija oled ekrana
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 #define PIN_TRIG_LIJEVI 13
@@ -17,9 +19,22 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define LED_ZELENA 33
 #define ZVUCNIK 2     // Definiranje pinova za LED-ice i za zvucnik
 
-volatile bool jeBudan = false;
-
 int udaljenostLijevi, udaljenostDesni;
+
+int izmjeriUdaljenost(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin, HIGH, 25000) / 58;  // Max timeout 25ms
+}
+
+String interpretiraj(int udaljenost) {
+  if (udaljenost >= 350) return "Daleko";
+  else if (udaljenost >= 200) return "Srednje";
+  else return "Blizu";
+}
 
 void setup() {
 
@@ -32,6 +47,8 @@ void setup() {
   pinMode(LED_ZUTA, OUTPUT);
   pinMode(LED_ZELENA, OUTPUT);    // Inicijalizacija pinova
 
+  pinMode(ZVUCNIK, OUTPUT);
+
   Serial.begin(115200);
 
   // Inicijalizacija OLED ekrana
@@ -40,104 +57,105 @@ void setup() {
     while (true);
   }
 
+  // Konfiguracija izvora buđenja (pin echo senzora)
+  esp_sleep_enable_ext0_wakeup((gpio_num_t)PIN_ECHO_LIJEVI, 1);  // Budi se na HIGH s ECHO lijevog senzora
+
+  // Prikaz poruke prilikom buđenja
   display.clearDisplay();
   display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
-  display.println("Pokretanje...");
+  display.println("Aktivacija...");
   display.display();
   delay(1000);
-
-  //esp_sleep_enable_timer_wakeup(1000000);  // Postavljanje timera na 1 sekundu
-
-}
-
-int izmjeriUdaljenost(int trigPin, int echoPin) {
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  return pulseIn(echoPin, HIGH) / 58;
-}
-
-String interpretiraj(int udaljenost) {
-  if (udaljenost >= 350) return "Daleko";
-  else if (udaljenost >= 200) return "Srednje";
-  else return "Blizu";
 }
 
 void loop() {
-  // Mjerenje udaljenosti
-  udaljenostLijevi = izmjeriUdaljenost(PIN_TRIG_LIJEVI, PIN_ECHO_LIJEVI);
-  udaljenostDesni = izmjeriUdaljenost(PIN_TRIG_DESNI, PIN_ECHO_DESNI);
 
-  // Odredi bliži senzor
-  int minUdaljenost = udaljenostLijevi;
-  String najbliziSenzor = "lijevi";
-  if (udaljenostDesni < udaljenostLijevi) {
-    minUdaljenost = udaljenostDesni;
-    najbliziSenzor = "desni";
-  }
+  while (true) {
+    // Mjerenje udaljenosti
+    udaljenostLijevi = izmjeriUdaljenost(PIN_TRIG_LIJEVI, PIN_ECHO_LIJEVI);
+    udaljenostDesni = izmjeriUdaljenost(PIN_TRIG_DESNI, PIN_ECHO_DESNI);
 
-  // Reset svih LED-ica i zvučnika
-  digitalWrite(LED_ZELENA, LOW);
-  digitalWrite(LED_ZUTA, LOW);
-  digitalWrite(LED_CRVENA, LOW);
-  noTone(ZVUCNIK);
-
-  // OLED priprema
-  display.clearDisplay();
-  display.setTextColor(WHITE);
-  display.setTextSize(1);
-
-  display.setCursor(0, 0);
-  display.print("Lijevi: ");
-  display.print(udaljenostLijevi);
-  display.print(" cm");
-
-  display.setCursor(0, 10);
-  display.print("Desni: ");
-  display.print(udaljenostDesni);
-  display.print(" cm");
-
-  // Režim rada ovisno o minimalnoj udaljenosti
-  if (minUdaljenost >= 350) {
-    // Normalan režim
-    digitalWrite(LED_ZELENA, HIGH);
-    display.setCursor(0, 30);
-    display.setTextSize(2);
-    display.println("Sustav aktivan");
-
-  } else if (minUdaljenost >= 200) {
-    // Upozorenje (2–4 m)
-    for (int i = 0; i < 2; i++) {
-      digitalWrite(LED_ZUTA, HIGH);
-      tone(ZVUCNIK, 262, 100);
-      delay(500);
-      digitalWrite(LED_ZUTA, LOW);
-      delay(500);
+    // Odredi bliži senzor
+    int minUdaljenost = udaljenostLijevi;
+    String najbliziSenzor = "lijevi";
+    if (udaljenostDesni < udaljenostLijevi) {
+      minUdaljenost = udaljenostDesni;
+      najbliziSenzor = "desni";
     }
-    display.setCursor(0, 30);
-    display.setTextSize(1);
-    display.println("OPREZ: Vozilo u blizini");
 
-  } else {
-    // Kritično stanje (< 2 m)
-    digitalWrite(LED_CRVENA, HIGH);
-    tone(ZVUCNIK, 262);
-    display.setCursor(0, 30);
-    display.setTextSize(2);
-    display.println("PAZI!");
-    display.setCursor(0, 50);
+    // Reset svih LED-ica i zvučnika
+    digitalWrite(LED_ZELENA, LOW);
+    digitalWrite(LED_ZUTA, LOW);
+    digitalWrite(LED_CRVENA, LOW);
+    noTone(ZVUCNIK);
+
+    // OLED priprema
+    display.clearDisplay();
+    display.setTextColor(WHITE);
     display.setTextSize(1);
-    display.print("VOZILO BLIZU! (");
-    display.print(najbliziSenzor);
-    display.print(")");
+
+    display.setCursor(0, 0);
+    display.print("Lijevi: ");
+    display.print(udaljenostLijevi);
+    display.print(" cm");
+
+    display.setCursor(0, 10);
+    display.print("Desni: ");
+    display.print(udaljenostDesni);
+    display.print(" cm");
+
+    // Režim rada ovisno o minimalnoj udaljenosti
+    if (minUdaljenost >= 350) {
+      // Normalan režim
+      digitalWrite(LED_ZELENA, HIGH);
+      display.setCursor(0, 30);
+      display.setTextSize(2);
+      display.println("Sustav aktivan");
+
+      display.display();
+      delay(2000);  // Kratko zadržavanje
+
+      // Priprema za sleep
+      digitalWrite(LED_ZELENA, LOW);
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setCursor(0,0);
+      display.println("Spavanje...");
+      display.display();
+      delay(1000);
+
+      esp_deep_sleep_start();  // Ulazak u duboki san
+
+    } else if (minUdaljenost >= 200) {
+      // Upozorenje (2–4 m)
+      for (int i = 0; i < 2; i++) {
+        digitalWrite(LED_ZUTA, HIGH);
+        tone(ZVUCNIK, 262, 100);
+        delay(500);
+        digitalWrite(LED_ZUTA, LOW);
+        delay(500);
+      }
+      display.setCursor(0, 30);
+      display.setTextSize(1);
+      display.println("OPREZ: Vozilo u blizini");
+
+    } else {
+      // Kritično stanje (< 2 m)
+      digitalWrite(LED_CRVENA, HIGH);
+      tone(ZVUCNIK, 262);
+      display.setCursor(0, 30);
+      display.setTextSize(2);
+      display.println("PAZI!");
+      display.setCursor(0, 50);
+      display.setTextSize(1);
+      display.print("VOZILO BLIZU! (");
+      display.print(najbliziSenzor);
+      display.print(")");
+    }
+
+    display.display();
+    delay(500);  // Kratki delay prije novog očitanja
   }
-
-  display.display();
-  delay(500); // Dovoljno za prikaz
-
-  //esp_deep_sleep_start();
 }
