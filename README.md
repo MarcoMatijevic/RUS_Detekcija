@@ -13,14 +13,14 @@
 - **Arduino Mega** – Glavni mikrokontroler  
 - **HC-SR04** – Ultrazvučni senzor udaljenosti  
 - **LED indikatori** (zelena/žuta/crvena)  
-- **Buzzer** – Zvučno upozorenje
-- **Vibra Motor** – Taktilno upozorenje    
+- **Buzzer** – Zvučno upozorenje    
 - **LCD1602 s I2C** – Prikaz stanja  
 
 ### 🚀 Napredna verzija (ESP32 u Wokwiju)
 - **ESP32** – WiFi/BLE sposobnosti  
-- **Dodatni HC-SR04** – Stražnji senzor  
-- **OLED SSD1306** – Grafički displej  
+- **Dodatni HC-SR04** – Za dvije strane  
+- **OLED SSD1306** – Grafički displej
+- **Vibra Motor** – Haptičko upozorenje
 
 ---
 
@@ -32,14 +32,13 @@
 
 ### 🟡 Upozorenje (2-3.5m)
 - Žuta LED treperi  
-- Kratki zvučni signali (1s interval)  
+- Kratki zvučni signali (0.1s interval)  
 - LCD: "OPREZ: Vozilo u blizini"
 - Slabe vibracije
 
 ### 🔴 Kritično stanje (<2m)
 - Crvena LED + buzzer kontinuirano  
 - LCD: "PAZI! VOZILO BLIZU!"
-- Jake vibracije 
 - U ESP32 verziji dodatno:  
   - Vibracija  
   - WiFi obavijest  
@@ -58,44 +57,53 @@
 
 ### 💻 Kôd značajke
 ```cpp
-// Režim rada ovisno o minimalnoj udaljenosti
-  if (minUdaljenost >= 350) {
-    // Normalan režim
-    digitalWrite(LED_ZELENA, HIGH);
-    display.setCursor(0, 30);
-    display.setTextSize(2);
-    display.println("Sustav aktivan");
-
-  } else if (minUdaljenost >= 200) {
-    // Upozorenje (2–4 m)
-    for (int i = 0; i < 2; i++) {
-      digitalWrite(LED_ZUTA, HIGH);
-      tone(ZVUCNIK, 262, 100);
-      delay(500);
-      digitalWrite(LED_ZUTA, LOW);
-      delay(500);
+// --- Klasa za upravljanje signalizacijom ---
+class AlertManager {
+  public:
+    static void init() {
+      pinMode(LED_CRVENA, OUTPUT);
+      pinMode(LED_ZUTA, OUTPUT);
+      pinMode(LED_ZELENA, OUTPUT);
+      pinMode(ZVUCNIK, OUTPUT);
+      pinMode(VIBRA_PIN, OUTPUT);
+      digitalWrite(VIBRA_PIN, LOW);
     }
-    display.setCursor(0, 30);
-    display.setTextSize(1);
-    display.println("OPREZ: Vozilo u blizini");
 
-  } else {
-    // Kritično stanje (< 2 m)
-    digitalWrite(LED_CRVENA, HIGH);
-    tone(ZVUCNIK, 262);
-    display.setCursor(0, 30);
-    display.setTextSize(2);
-    display.println("PAZI!");
-    display.setCursor(0, 50);
-    display.setTextSize(1);
-    display.print("VOZILO BLIZU! (");
-    display.print(najbliziSenzor);
-    display.print(")");
-  }
+    static void reset() {
+      digitalWrite(LED_ZELENA, LOW);
+      digitalWrite(LED_ZUTA, LOW);
+      digitalWrite(LED_CRVENA, LOW);
+      noTone(ZVUCNIK);
+      digitalWrite(VIBRA_PIN, LOW);
+    }
+
+    static void normalMode() {
+      digitalWrite(LED_ZELENA, HIGH);
+    }
+
+    static void warningMode() {
+      for (int i = 0; i < 2; i++) {
+        digitalWrite(LED_ZUTA, HIGH);
+        tone(ZVUCNIK, 262, 100);
+        digitalWrite(VIBRA_PIN, HIGH); 
+        delay(10);                      
+        digitalWrite(VIBRA_PIN, LOW);
+        delay(40);
+        digitalWrite(LED_ZUTA, LOW);
+        delay(50);
+      }
+    }
+
+    static void criticalMode() {
+      digitalWrite(LED_CRVENA, HIGH);
+      tone(ZVUCNIK, 262);
+      digitalWrite(VIBRA_PIN, HIGH); 
+    }
+};
 ```
 
 ## 📚 Resursi
-1. [Kompletni kod](https://github.com/MarcoMatijevic/RUS_Detekcija)
+1. [Kompletni kod](https://github.com/MarcoMatijevic/RUS_Detekcija/blob/main/Projekt/sketch.ino)
 2. [ESP32 Wokwi template](https://wokwi.com/projects/429025123835618305)
 3. [Kalibracijski vodič](https://wokwi.com/projects/428865980507846657)  
 
