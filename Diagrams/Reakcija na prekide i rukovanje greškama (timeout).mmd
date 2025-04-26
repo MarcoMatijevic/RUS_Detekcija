@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    participant RTC as EXT1_Wakeup
+    participant MCU as ESP32
+    participant ISR as sensorWakeISR()
+    participant UL as UltrasonicSensor
+    participant Err as ErrorHandler
+
+    Note over MCU: Nakon showSpavanje()
+    MCU->>RTC: enable_ext1_wakeup(echoPins)
+    MCU->>MCU: esp_deep_sleep_start()
+
+    Note over RTC,MCU: Echo pin signal
+    RTC-->>ISR: RISING interrupt
+    ISR-->>MCU: Wakeup
+    MCU->>MCU: reset stanje
+    MCU->>UL: readDistance()
+    alt Timeout (>25ms)
+        UL-->>Err: distance = -1
+        Err-->>MCU: handleError()
+    else Uspješno čitanje
+        UL-->>MCU: distance
+    end
+    MCU->>AM: reset()
+    MCU->>MCU: nastavi rad
