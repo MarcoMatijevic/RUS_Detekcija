@@ -13,7 +13,8 @@
 - **Arduino Mega** – Glavni mikrokontroler  
 - **HC-SR04** – Ultrazvučni senzor udaljenosti  
 - **LED indikatori** (zelena/žuta/crvena)  
-- **Buzzer** – Zvučno upozorenje  
+- **Buzzer** – Zvučno upozorenje
+- **Vibra Motor** – Taktilno upozorenje    
 - **LCD1602 s I2C** – Prikaz stanja  
 
 ### 🚀 Napredna verzija (ESP32 u Wokwiju)
@@ -32,11 +33,13 @@
 ### 🟡 Upozorenje (2-3.5m)
 - Žuta LED treperi  
 - Kratki zvučni signali (1s interval)  
-- LCD: "OPREZ: Vozilo u blizini"  
+- LCD: "OPREZ: Vozilo u blizini"
+- Slabe vibracije
 
 ### 🔴 Kritično stanje (<2m)
 - Crvena LED + buzzer kontinuirano  
-- LCD: "PAZI! VOZILO BLIZU!"  
+- LCD: "PAZI! VOZILO BLIZU!"
+- Jake vibracije 
 - U ESP32 verziji dodatno:  
   - Vibracija  
   - WiFi obavijest  
@@ -51,6 +54,7 @@
 | HC-SR04 (Rear)  | Trig:14, Echo:27 |
 | OLED I2C       | SDA:21, SCL:22 |
 | Buzzer         | GPIO2   |
+| Vibra motor         | GPI32   |
 
 ### 💻 Kôd značajke
 ```cpp
