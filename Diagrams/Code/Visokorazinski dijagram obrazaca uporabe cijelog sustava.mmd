@@ -1,0 +1,24 @@
+flowchart LR
+    %% Definicija sustava
+    subgraph Sustav["Detekcija približavanja"]
+        UC1(("Aktiviraj sustav"))
+        UC2(("Pogledaj udaljenost"))
+        UC3(("Primi vizualna upozorenja"))
+        UC4(("Primi zvučna upozorenja"))
+        UC5(("Primi taktilna upozorenja"))
+    end
+
+    %% Akteri
+    User["Korisnik"]
+    Vehicle["Vozilo (okolina)"]
+
+    %% Veze aktera i use case-ova
+    User --> UC1
+    User --> UC2
+    Vehicle --> UC2
+
+    %% Interni tok
+    UC1 --> UC2
+    UC2 --> UC3
+    UC2 --> UC4
+    UC2 --> UC5
