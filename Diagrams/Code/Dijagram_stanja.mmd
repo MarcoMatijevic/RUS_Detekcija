@@ -1,0 +1,15 @@
+stateDiagram-v2
+    [*] --> Startup
+
+    Startup --> Aktivno : Inicijalizacija senzora i zaslona
+
+    Aktivno --> Normalno : Udaljenost >= 350 cm
+    Aktivno --> Upozorenje : 200 cm <= Udaljenost < 350 cm
+    Aktivno --> Kritično : Udaljenost < 200 cm
+
+    Normalno --> Spavanje : Prikaz spavanja + ulazak u deep sleep
+    Spavanje --> Buđenje : Eksterni prekid s Echo pina
+    Buđenje --> Aktivno : Nastavak mjerenja
+
+    Upozorenje --> Aktivno : Ponavljanje mjerenja
+    Kritično --> Aktivno : Ponavljanje mjerenja
