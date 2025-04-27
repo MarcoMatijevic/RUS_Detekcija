@@ -1,0 +1,27 @@
+flowchart LR
+    %% Vanjski akteri – poslovni procesi
+    BP1["Automatska kontrola i regulacija"]
+    BP2["Sigurnosne procedure"]
+
+    %% Sustav i njegovi use case-ovi
+    subgraph Sustav["Detekcija približavanja vozila biciklu"]
+        UC1(("Izmjeri udaljenost"))
+        UC2(("Obradi udaljenost"))
+        UC3(("Generiraj upozorenja"))
+        UC4(("Self-dijagnostika i detekcija grešaka"))
+        UC5(("Upravljanje napajanjem (deep sleep)"))
+    end
+
+    %% Povezivanje sustava s poslovnim procesima
+    BP1 --> UC1
+    BP1 --> UC2
+    BP1 --> UC3
+
+    BP2 --> UC4
+    BP2 --> UC5
+
+    %% Interni tok među funkcijama sustava
+    UC1 --> UC2
+    UC2 --> UC3
+    UC2 --> UC4
+    UC4 --> UC5
