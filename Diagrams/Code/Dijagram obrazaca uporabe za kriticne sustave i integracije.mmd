@@ -1,0 +1,29 @@
+flowchart LR
+    %% Vanjski sustavi i protokoli
+    S1["Vanjski senzori/aktuatori"]
+    S2["Industrijski protokoli 
+    (I2C, SPI, UART, CAN, Modbus)"]
+    S3["Udaljeni server/baza podataka"]
+
+    %% Sustav i njegovi kritični use case-ovi
+    subgraph Sustav["Detekcija približavanja vozila biciklu"]
+        UC1(("Integracija sa senzorima/aktuatorima"))
+        UC2(("Komunikacija putem industrijskih protokola"))
+        UC3(("Sigurnosna dijagnostika"))
+        UC4(("Sinkronizacija i pohrana podataka"))
+    end
+
+    %% Veze
+    S1 --> UC1
+    UC1 --> S1
+
+    S2 --> UC2
+    UC2 --> UC1
+    UC2 --> UC3
+
+    UC1 --> UC3
+    UC3 --> UC2
+
+    UC1 --> UC4
+    UC4 --> S3
+    S3 --> UC4

@@ -1,0 +1,9 @@
+sequenceDiagram
+    autonumber
+    participant MCU as Mikrokontroler
+    participant TempSenzor as Temperaturni senzor
+    participant Rashladni as Rashladni sustav
+
+    TempSenzor-->>MCU: Podaci o temperaturi
+    MCU->>MCU: Analiza temperature
+    MCU->>Rashladni: Aktivacija rashladnog sustava

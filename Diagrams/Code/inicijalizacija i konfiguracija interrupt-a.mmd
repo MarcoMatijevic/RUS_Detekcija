@@ -1,0 +1,20 @@
+sequenceDiagram
+    autonumber
+    participant MCU as ESP32
+    participant SL as Sensor(Lijevi)
+    participant SR as Sensor(Desni)
+    participant AM as AlertManager
+    participant DM as DisplayManager
+
+    MCU->>SL: begin()
+    SL-->>MCU: OK
+    MCU->>SR: begin()
+    SR-->>MCU: OK
+    MCU->>AM: init()
+    AM-->>MCU: OK
+    MCU->>DM: init()
+    DM-->>MCU: OK
+    MCU->>MCU: attachInterrupt(PIN_ECHO_LIJEVI, ISR, RISING)
+    MCU->>MCU: attachInterrupt(PIN_ECHO_DESNI, ISR, RISING)
+    MCU->>MCU: esp_sleep_enable_ext1_wakeup(echoPins, ANY_HIGH)
+    MCU->>DM: showStartup()
