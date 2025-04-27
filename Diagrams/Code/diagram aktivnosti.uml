@@ -1,0 +1,34 @@
+@startuml ActivityDiagram
+|Startup|
+start
+:initialize Serial, OLED, senzore;
+:AlertManager::init();
+:DisplayManager::init();
+:attachInterrupts();
+:showStartup();
+|Loop|
+repeat
+  :readDistance(left);
+  :readDistance(right);
+  :minDistance = min(left,right);
+  if (minDistance >= 350) then (da)
+    :AlertManager::reset();
+    :AlertManager::normalMode();
+    :DisplayManager::showStatus(left,right,"Sustav aktivan");
+    :delay(2000);
+    :DisplayManager::showSpavanje();
+    :esp_deep_sleep_start();
+    -->[interrupt] : wakeUp();
+  elseif (minDistance >= 200) then (da)
+    :AlertManager::reset();
+    :AlertManager::warningMode();
+    :DisplayManager::showStatus(left,right,"OPREZ");
+  else (minDistance < 200)
+    :AlertManager::reset();
+    :AlertManager::criticalMode();
+    :DisplayManager::showStatus(left,right,"PAZI!",sensor);
+  endif
+  :delay(500);
+repeat while(true)
+stop
+@enduml
