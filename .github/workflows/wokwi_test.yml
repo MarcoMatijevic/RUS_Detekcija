@@ -21,7 +21,7 @@ jobs:
         run: curl -L https://wokwi.com/ci/install.sh | sh
 
       - name: Build with PlatformIO
-        working-directory: ./Projekt
+        working-directory: ./Projekt/src
         run: |
           pio run -v
           ls -la .pio/build/  # Verify build output
