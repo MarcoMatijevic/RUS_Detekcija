@@ -32,4 +32,4 @@ jobs:
           token: ${{ secrets.WOKWI_CLI_TOKEN }}
           path: "Projekt" # directory with wokwi.toml, relative to repo's root
           timeout: 100000
-          scenario: "Wokwi_Test.yaml"
+          scenario: "wokwi_Test.yaml"
